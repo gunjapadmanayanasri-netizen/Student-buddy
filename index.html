@@ -1,0 +1,1393 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="theme-color" content="#4f46e5">
+    <meta name="description" content="Student Buddy - Your all-in-one student companion">
+
+    <title>Student Buddy 🎓</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        :root {
+            --primary: #4f46e5;
+            --secondary: #6366f1;
+            --bg: #f5f7fb;
+            --card: #ffffff;
+            --text: #111827;
+            --muted: #6b7280;
+            --border: #e5e7eb;
+            --danger: #ef4444;
+            --success: #16a34a;
+        }
+
+        body.dark {
+            --bg: #111827;
+            --card: #1f2937;
+            --text: #f9fafb;
+            --muted: #9ca3af;
+            --border: #374151;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            transition: 0.3s;
+        }
+
+        /* HEADER */
+
+        header {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            color: white;
+            padding: 25px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+
+        .header-content {
+            max-width: 1100px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            font-size: 25px;
+        }
+
+        header p {
+            margin-top: 5px;
+            opacity: 0.85;
+            font-size: 14px;
+        }
+
+        .theme-btn {
+            border: none;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        /* NAV */
+
+        nav {
+            max-width: 1100px;
+            margin: 20px auto;
+            padding: 0 15px;
+
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+        }
+
+        nav button {
+            white-space: nowrap;
+            border: none;
+            padding: 12px 17px;
+            border-radius: 10px;
+            background: var(--card);
+            color: var(--text);
+            cursor: pointer;
+            border: 1px solid var(--border);
+            transition: 0.2s;
+        }
+
+        nav button:hover,
+        nav button.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* MAIN */
+
+        main {
+            max-width: 1100px;
+            margin: auto;
+            padding: 0 15px 50px;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .welcome {
+            background: var(--card);
+            padding: 25px;
+            border-radius: 18px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border);
+        }
+
+        .welcome h2 {
+            margin-bottom: 8px;
+        }
+
+        .welcome p {
+            color: var(--muted);
+        }
+
+        /* DASHBOARD */
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .card {
+            background: var(--card);
+            padding: 22px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+        }
+
+        .card-icon {
+            font-size: 30px;
+            margin-bottom: 12px;
+        }
+
+        .card h3 {
+            margin-bottom: 7px;
+        }
+
+        .card p {
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        /* CALCULATOR */
+
+        .calculator {
+            max-width: 600px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 25px;
+            margin: auto;
+        }
+
+        .calculator h2 {
+            margin-bottom: 8px;
+        }
+
+        .calculator .description {
+            color: var(--muted);
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin: 15px 0 7px;
+            font-weight: bold;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 13px;
+            border-radius: 9px;
+            border: 1px solid var(--border);
+            background: var(--bg);
+            color: var(--text);
+            outline: none;
+            font-size: 15px;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: var(--primary);
+        }
+
+        .btn {
+            width: 100%;
+            margin-top: 20px;
+            padding: 13px;
+            border: none;
+            border-radius: 9px;
+            background: var(--primary);
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        .result {
+            display: none;
+            margin-top: 20px;
+            padding: 18px;
+            border-radius: 12px;
+            background: rgba(79,70,229,0.1);
+            text-align: center;
+        }
+
+        .result.show {
+            display: block;
+        }
+
+        .result-number {
+            font-size: 32px;
+            font-weight: bold;
+            color: var(--primary);
+            margin: 8px 0;
+        }
+
+        .success {
+            color: var(--success);
+            font-weight: bold;
+        }
+
+        .danger {
+            color: var(--danger);
+            font-weight: bold;
+        }
+
+        /* TIMETABLE */
+
+        .timetable {
+            display: grid;
+            gap: 12px;
+        }
+
+        .class-item {
+            background: var(--card);
+            border: 1px solid var(--border);
+            padding: 18px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .class-info h3 {
+            margin-bottom: 5px;
+        }
+
+        .class-info p {
+            color: var(--muted);
+        }
+
+        .delete-btn {
+            background: var(--danger);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 7px;
+            cursor: pointer;
+        }
+
+        /* TASKS */
+
+        .task-input {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .task-input input {
+            flex: 1;
+        }
+
+        .task-input button {
+            width: auto;
+            padding: 0 20px;
+            margin: 0;
+        }
+
+        .task {
+            background: var(--card);
+            border: 1px solid var(--border);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .task-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .task.completed span {
+            text-decoration: line-through;
+            color: var(--muted);
+        }
+
+        /* FOOTER */
+
+        footer {
+            text-align: center;
+            color: var(--muted);
+            padding: 25px;
+            font-size: 14px;
+        }
+
+        /* MOBILE */
+
+        @media(max-width: 800px) {
+            .cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media(max-width: 500px) {
+            header {
+                padding: 20px 15px;
+            }
+
+            header h1 {
+                font-size: 21px;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .calculator {
+                padding: 18px;
+            }
+
+            .task-input {
+                flex-direction: column;
+            }
+
+            .task-input button {
+                width: 100%;
+                padding: 13px;
+            }
+
+            .class-item {
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="header-content">
+        <div>
+            <h1>🎓 Student Buddy</h1>
+            <p>Your Study • Your Progress</p>
+        </div>
+
+        <button class="theme-btn" onclick="toggleDarkMode()" id="themeButton">
+            🌙
+        </button>
+    </div>
+</header>
+
+<nav>
+    <button class="active" onclick="showSection('home', this)">🏠 Home</button>
+    <button onclick="showSection('attendance', this)">📊 Attendance</button>
+    <button onclick="showSection('sgpa', this)">🧮 SGPA</button>
+    <button onclick="showSection('cgpa', this)">📚 CGPA</button>
+    <button onclick="showSection('timetable', this)">📅 Timetable</button>
+    <button onclick="showSection('tasks', this)">✅ Tasks</button>
+</nav>
+
+<main>
+
+    <!-- HOME -->
+
+    <section id="home" class="section active">
+
+        <div class="welcome">
+            <h2>Welcome to Student Buddy 👋</h2>
+            <p>
+                Manage your attendance, grades, timetable and assignments
+                in one simple app.
+            </p>
+        </div>
+
+        <div class="cards">
+
+            <div class="card" onclick="showSectionById('attendance')">
+                <div class="card-icon">📊</div>
+                <h3>Attendance</h3>
+                <p>Calculate your attendance percentage.</p>
+            </div>
+
+            <div class="card" onclick="showSectionById('sgpa')">
+                <div class="card-icon">🧮</div>
+                <h3>SGPA</h3>
+                <p>Calculate semester GPA easily.</p>
+            </div>
+
+            <div class="card" onclick="showSectionById('timetable')">
+                <div class="card-icon">📅</div>
+                <h3>Timetable</h3>
+                <p>Manage your class schedule.</p>
+            </div>
+
+            <div class="card" onclick="showSectionById('tasks')">
+                <div class="card-icon">✅</div>
+                <h3>Tasks</h3>
+                <p>Track assignments and tasks.</p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ATTENDANCE -->
+
+    <section id="attendance" class="section">
+
+        <div class="calculator">
+
+            <h2>📊 Attendance Calculator</h2>
+
+            <p class="description">
+                Find your attendance percentage and eligibility.
+            </p>
+
+            <label>Total Classes</label>
+            <input
+                type="number"
+                id="totalClasses"
+                placeholder="Example: 40"
+                min="1"
+            >
+
+            <label>Classes Attended</label>
+            <input
+                type="number"
+                id="attendedClasses"
+                placeholder="Example: 34"
+                min="0"
+            >
+
+            <label>Required Attendance (%)</label>
+            <input
+                type="number"
+                id="requiredAttendance"
+                value="75"
+                min="1"
+                max="100"
+            >
+
+            <button class="btn" onclick="calculateAttendance()">
+                Calculate Attendance
+            </button>
+
+            <div class="result" id="attendanceResult"></div>
+
+        </div>
+
+    </section>
+
+
+    <!-- SGPA -->
+
+    <section id="sgpa" class="section">
+
+        <div class="calculator">
+
+            <h2>🧮 SGPA Calculator</h2>
+
+            <p class="description">
+                Enter credits and grade points for your subjects.
+            </p>
+
+            <div id="subjects">
+
+                <div class="subject">
+                    <label>Subject 1 - Credits</label>
+                    <input
+                        type="number"
+                        class="credit"
+                        placeholder="Example: 4"
+                        min="0"
+                    >
+
+                    <label>Subject 1 - Grade Point</label>
+                    <input
+                        type="number"
+                        class="grade"
+                        placeholder="Example: 8"
+                        min="0"
+                        max="10"
+                    >
+                </div>
+
+                <div class="subject">
+                    <label>Subject 2 - Credits</label>
+                    <input
+                        type="number"
+                        class="credit"
+                        placeholder="Example: 3"
+                        min="0"
+                    >
+
+                    <label>Subject 2 - Grade Point</label>
+                    <input
+                        type="number"
+                        class="grade"
+                        placeholder="Example: 9"
+                        min="0"
+                        max="10"
+                    >
+                </div>
+
+                <div class="subject">
+                    <label>Subject 3 - Credits</label>
+                    <input
+                        type="number"
+                        class="credit"
+                        placeholder="Example: 3"
+                        min="0"
+                    >
+
+                    <label>Subject 3 - Grade Point</label>
+                    <input
+                        type="number"
+                        class="grade"
+                        placeholder="Example: 7"
+                        min="0"
+                        max="10"
+                    >
+                </div>
+
+                <div class="subject">
+                    <label>Subject 4 - Credits</label>
+                    <input
+                        type="number"
+                        class="credit"
+                        placeholder="Example: 4"
+                        min="0"
+                    >
+
+                    <label>Subject 4 - Grade Point</label>
+                    <input
+                        type="number"
+                        class="grade"
+                        placeholder="Example: 8"
+                        min="0"
+                        max="10"
+                    >
+                </div>
+
+            </div>
+
+            <button class="btn" onclick="calculateSGPA()">
+                Calculate SGPA
+            </button>
+
+            <div class="result" id="sgpaResult"></div>
+
+        </div>
+
+    </section>
+
+
+    <!-- CGPA -->
+
+    <section id="cgpa" class="section">
+
+        <div class="calculator">
+
+            <h2>📚 CGPA Calculator</h2>
+
+            <p class="description">
+                Enter your semester GPAs to calculate overall CGPA.
+            </p>
+
+            <label>Semester 1 GPA</label>
+            <input type="number" class="semesterGPA" step="0.01" min="0" max="10">
+
+            <label>Semester 2 GPA</label>
+            <input type="number" class="semesterGPA" step="0.01" min="0" max="10">
+
+            <label>Semester 3 GPA</label>
+            <input type="number" class="semesterGPA" step="0.01" min="0" max="10">
+
+            <label>Semester 4 GPA</label>
+            <input type="number" class="semesterGPA" step="0.01" min="0" max="10">
+
+            <label>Semester 5 GPA</label>
+            <input type="number" class="semesterGPA" step="0.01" min="0" max="10">
+
+            <label>Semester 6 GPA</label>
+            <input type="number" class="semesterGPA" step="0.01" min="0" max="10">
+
+            <label>Semester 7 GPA</label>
+            <input type="number" class="semesterGPA" step="0.01" min="0" max="10">
+
+            <label>Semester 8 GPA</label>
+            <input type="number" class="semesterGPA" step="0.01" min="0" max="10">
+
+            <button class="btn" onclick="calculateCGPA()">
+                Calculate CGPA
+            </button>
+
+            <div class="result" id="cgpaResult"></div>
+
+        </div>
+
+    </section>
+
+
+    <!-- TIMETABLE -->
+
+    <section id="timetable" class="section">
+
+        <div class="calculator">
+
+            <h2>📅 Timetable</h2>
+
+            <p class="description">
+                Add your classes and manage your schedule.
+            </p>
+
+            <label>Day</label>
+
+            <select id="classDay">
+                <option>Monday</option>
+                <option>Tuesday</option>
+                <option>Wednesday</option>
+                <option>Thursday</option>
+                <option>Friday</option>
+                <option>Saturday</option>
+            </select>
+
+            <label>Subject</label>
+
+            <input
+                type="text"
+                id="classSubject"
+                placeholder="Example: Mathematics"
+            >
+
+            <label>Time</label>
+
+            <input
+                type="text"
+                id="classTime"
+                placeholder="Example: 10:00 AM"
+            >
+
+            <button class="btn" onclick="addClass()">
+                Add Class
+            </button>
+
+        </div>
+
+        <br>
+
+        <div id="timetableList" class="timetable"></div>
+
+    </section>
+
+
+    <!-- TASKS -->
+
+    <section id="tasks" class="section">
+
+        <div class="calculator">
+
+            <h2>✅ Assignment & Tasks</h2>
+
+            <p class="description">
+                Add tasks and mark them as completed.
+            </p>
+
+            <div class="task-input">
+
+                <input
+                    type="text"
+                    id="taskInput"
+                    placeholder="Example: Complete Maths assignment"
+                >
+
+                <button class="btn" onclick="addTask()">
+                    Add
+                </button>
+
+            </div>
+
+            <div id="taskList"></div>
+
+        </div>
+
+    </section>
+
+</main>
+
+<footer>
+    © 2026 Student Buddy • Made for Students ❤️
+</footer>
+
+
+<script>
+
+    /* -----------------------------
+       NAVIGATION
+    ----------------------------- */
+
+    function showSection(sectionId, button) {
+
+        document.querySelectorAll(".section").forEach(section => {
+            section.classList.remove("active");
+        });
+
+        document.getElementById(sectionId).classList.add("active");
+
+        document.querySelectorAll("nav button").forEach(btn => {
+            btn.classList.remove("active");
+        });
+
+        if (button) {
+            button.classList.add("active");
+        }
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    }
+
+
+    function showSectionById(sectionId) {
+
+        document.querySelectorAll(".section").forEach(section => {
+            section.classList.remove("active");
+        });
+
+        document.getElementById(sectionId).classList.add("active");
+
+        document.querySelectorAll("nav button").forEach(btn => {
+            btn.classList.remove("active");
+
+            if (
+                btn.getAttribute("onclick") &&
+                btn.getAttribute("onclick").includes(sectionId)
+            ) {
+                btn.classList.add("active");
+            }
+        });
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    }
+
+
+    /* -----------------------------
+       DARK MODE
+    ----------------------------- */
+
+    function toggleDarkMode() {
+
+        document.body.classList.toggle("dark");
+
+        const isDark =
+            document.body.classList.contains("dark");
+
+        localStorage.setItem("darkMode", isDark);
+
+        document.getElementById("themeButton").textContent =
+            isDark ? "☀️" : "🌙";
+    }
+
+
+    function loadDarkMode() {
+
+        const isDark =
+            localStorage.getItem("darkMode") === "true";
+
+        if (isDark) {
+
+            document.body.classList.add("dark");
+
+            document.getElementById("themeButton").textContent =
+                "☀️";
+        }
+    }
+
+
+    /* -----------------------------
+       ATTENDANCE
+    ----------------------------- */
+
+    function calculateAttendance() {
+
+        const total =
+            Number(document.getElementById("totalClasses").value);
+
+        const attended =
+            Number(document.getElementById("attendedClasses").value);
+
+        const required =
+            Number(document.getElementById("requiredAttendance").value);
+
+        const result =
+            document.getElementById("attendanceResult");
+
+
+        if (total <= 0) {
+
+            result.innerHTML =
+                "❌ Please enter valid total classes.";
+
+            result.classList.add("show");
+
+            return;
+        }
+
+
+        if (attended < 0 || attended > total) {
+
+            result.innerHTML =
+                "❌ Attended classes cannot be greater than total classes.";
+
+            result.classList.add("show");
+
+            return;
+        }
+
+
+        const percentage =
+            (attended / total) * 100;
+
+
+        let message = "";
+
+        if (percentage >= required) {
+
+            message = `
+                <div class="success">
+                    ✅ You are eligible!
+                </div>
+            `;
+
+        } else {
+
+            const needed =
+                Math.ceil(
+                    (required * total - 100 * attended)
+                    / (100 - required)
+                );
+
+            message = `
+                <div class="danger">
+                    ❌ Attendance is below requirement.
+                </div>
+                <p>
+                    You need approximately
+                    <strong>${Math.max(0, needed)}</strong>
+                    more consecutive classes to reach ${required}%.
+                </p>
+            `;
+        }
+
+
+        result.innerHTML = `
+            <p>Your Attendance</p>
+
+            <div class="result-number">
+                ${percentage.toFixed(2)}%
+            </div>
+
+            ${message}
+        `;
+
+        result.classList.add("show");
+    }
+
+
+    /* -----------------------------
+       SGPA
+    ----------------------------- */
+
+    function calculateSGPA() {
+
+        const credits =
+            document.querySelectorAll(".credit");
+
+        const grades =
+            document.querySelectorAll(".grade");
+
+
+        let totalCredits = 0;
+
+        let totalPoints = 0;
+
+
+        for (let i = 0; i < credits.length; i++) {
+
+            const credit =
+                Number(credits[i].value);
+
+            const grade =
+                Number(grades[i].value);
+
+
+            if (
+                credit > 0 &&
+                grade >= 0 &&
+                grade <= 10
+            ) {
+
+                totalCredits += credit;
+
+                totalPoints +=
+                    credit * grade;
+            }
+        }
+
+
+        const result =
+            document.getElementById("sgpaResult");
+
+
+        if (totalCredits === 0) {
+
+            result.innerHTML =
+                "❌ Please enter subject credits and grade points.";
+
+            result.classList.add("show");
+
+            return;
+        }
+
+
+        const sgpa =
+            totalPoints / totalCredits;
+
+
+        result.innerHTML = `
+            <p>Your SGPA</p>
+
+            <div class="result-number">
+                ${sgpa.toFixed(2)}
+            </div>
+
+            <p>
+                Total Credits:
+                <strong>${totalCredits}</strong>
+            </p>
+        `;
+
+        result.classList.add("show");
+    }
+
+
+    /* -----------------------------
+       CGPA
+    ----------------------------- */
+
+    function calculateCGPA() {
+
+        const inputs =
+            document.querySelectorAll(".semesterGPA");
+
+
+        let total = 0;
+
+        let count = 0;
+
+
+        inputs.forEach(input => {
+
+            const value =
+                Number(input.value);
+
+            if (value > 0 && value <= 10) {
+
+                total += value;
+
+                count++;
+            }
+        });
+
+
+        const result =
+            document.getElementById("cgpaResult");
+
+
+        if (count === 0) {
+
+            result.innerHTML =
+                "❌ Please enter at least one semester GPA.";
+
+            result.classList.add("show");
+
+            return;
+        }
+
+
+        const cgpa =
+            total / count;
+
+
+        result.innerHTML = `
+            <p>Your CGPA</p>
+
+            <div class="result-number">
+                ${cgpa.toFixed(2)}
+            </div>
+
+            <p>
+                Semesters entered:
+                <strong>${count}</strong>
+            </p>
+        `;
+
+        result.classList.add("show");
+    }
+
+
+    /* -----------------------------
+       TIMETABLE
+    ----------------------------- */
+
+    let timetable =
+        JSON.parse(
+            localStorage.getItem("timetable")
+        ) || [];
+
+
+    function addClass() {
+
+        const day =
+            document.getElementById("classDay").value;
+
+        const subject =
+            document.getElementById("classSubject").value.trim();
+
+        const time =
+            document.getElementById("classTime").value.trim();
+
+
+        if (!subject || !time) {
+
+            alert("Please enter subject and time.");
+
+            return;
+        }
+
+
+        timetable.push({
+            id: Date.now(),
+            day: day,
+            subject: subject,
+            time: time
+        });
+
+
+        saveTimetable();
+
+        renderTimetable();
+
+
+        document.getElementById("classSubject").value = "";
+
+        document.getElementById("classTime").value = "";
+    }
+
+
+    function deleteClass(id) {
+
+        timetable =
+            timetable.filter(item => item.id !== id);
+
+        saveTimetable();
+
+        renderTimetable();
+    }
+
+
+    function saveTimetable() {
+
+        localStorage.setItem(
+            "timetable",
+            JSON.stringify(timetable)
+        );
+    }
+
+
+    function renderTimetable() {
+
+        const container =
+            document.getElementById("timetableList");
+
+
+        if (timetable.length === 0) {
+
+            container.innerHTML = `
+                <div class="welcome">
+                    <p>📅 No classes added yet.</p>
+                </div>
+            `;
+
+            return;
+        }
+
+
+        const order = {
+            Monday: 1,
+            Tuesday: 2,
+            Wednesday: 3,
+            Thursday: 4,
+            Friday: 5,
+            Saturday: 6
+        };
+
+
+        const sorted =
+            [...timetable].sort(
+                (a, b) => order[a.day] - order[b.day]
+            );
+
+
+        container.innerHTML =
+            sorted.map(item => `
+
+                <div class="class-item">
+
+                    <div class="class-info">
+
+                        <h3>
+                            📚 ${escapeHTML(item.subject)}
+                        </h3>
+
+                        <p>
+                            ${escapeHTML(item.day)}
+                            •
+                            ${escapeHTML(item.time)}
+                        </p>
+
+                    </div>
+
+                    <button
+                        class="delete-btn"
+                        onclick="deleteClass(${item.id})"
+                    >
+                        Delete
+                    </button>
+
+                </div>
+
+            `).join("");
+    }
+
+
+    /* -----------------------------
+       TASK MANAGER
+    ----------------------------- */
+
+    let tasks =
+        JSON.parse(
+            localStorage.getItem("tasks")
+        ) || [];
+
+
+    function addTask() {
+
+        const input =
+            document.getElementById("taskInput");
+
+        const text =
+            input.value.trim();
+
+
+        if (!text) {
+
+            alert("Please enter a task.");
+
+            return;
+        }
+
+
+        tasks.push({
+            id: Date.now(),
+            text: text,
+            completed: false
+        });
+
+
+        saveTasks();
+
+        renderTasks();
+
+        input.value = "";
+    }
+
+
+    function toggleTask(id) {
+
+        tasks =
+            tasks.map(task => {
+
+                if (task.id === id) {
+
+                    return {
+                        ...task,
+                        completed: !task.completed
+                    };
+                }
+
+                return task;
+            });
+
+
+        saveTasks();
+
+        renderTasks();
+    }
+
+
+    function deleteTask(id) {
+
+        tasks =
+            tasks.filter(task => task.id !== id);
+
+        saveTasks();
+
+        renderTasks();
+    }
+
+
+    function saveTasks() {
+
+        localStorage.setItem(
+            "tasks",
+            JSON.stringify(tasks)
+        );
+    }
+
+
+    function renderTasks() {
+
+        const container =
+            document.getElementById("taskList");
+
+
+        if (tasks.length === 0) {
+
+            container.innerHTML = `
+                <div class="welcome">
+                    <p>📝 No tasks yet.</p>
+                </div>
+            `;
+
+            return;
+        }
+
+
+        container.innerHTML =
+            tasks.map(task => `
+
+                <div class="task ${
+                    task.completed ? "completed" : ""
+                }">
+
+                    <div class="task-left">
+
+                        <input
+                            type="checkbox"
+                            ${
+                                task.completed
+                                ? "checked"
+                                : ""
+                            }
+                            onchange="toggleTask(${task.id})"
+                        >
+
+                        <span>
+                            ${escapeHTML(task.text)}
+                        </span>
+
+                    </div>
+
+                    <button
+                        class="delete-btn"
+                        onclick="deleteTask(${task.id})"
+                    >
+                        Delete
+                    </button>
+
+                </div>
+
+            `).join("");
+    }
+
+
+    /* -----------------------------
+       SECURITY / HTML ESCAPE
+    ----------------------------- */
+
+    function escapeHTML(text) {
+
+        const div =
+            document.createElement("div");
+
+        div.textContent = text;
+
+        return div.innerHTML;
+    }
+
+
+    /* -----------------------------
+       ENTER KEY FOR TASK
+    ----------------------------- */
+
+    document
+        .getElementById("taskInput")
+        .addEventListener("keydown", function(event) {
+
+            if (event.key === "Enter") {
+                addTask();
+            }
+
+        });
+
+
+    /* -----------------------------
+       INITIAL LOAD
+    ----------------------------- */
+
+    loadDarkMode();
+
+    renderTimetable();
+
+    renderTasks();
+
+</script>
+
+</body>
+</html>
+```
